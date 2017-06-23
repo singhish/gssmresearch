@@ -17,10 +17,11 @@ for i in range(len(lines)):
 I create a list of the files for all redshifted 
 wavelengths at the redshift of each absorbers along 
 the sightline to Ton 618. From here, I transpose every
-line from each file into a 1D list of floats. I then
-take note of the intervals of the indices corresponding
-to each redshift using the commented-out print statement
-for Part 3 of the script.
+line from each file into a 1D list of floats and the 
+ion corresponding to each line in a 1D list of strings. 
+I then take note of the intervals of the indices
+corresponding to each redshift using the commented-out
+print statement for Part 3 of the script.
 """
 os.chdir("ton618redshifts")
 wavelength_files = [
@@ -31,14 +32,17 @@ wavelength_files = [
     open("17-1_8963.txt", "r"), open("18-1_8975.txt", "r"), open("19-2_1103.txt", "r"), open("20-2_1197.txt", "r")
 ]
 os.chdir("..")
+chemical_data = []
 wavelengths = []
 
 for i in range(len(wavelength_files)):
     wavelengths.extend(wavelength_files[i].readlines())
 
 for i in range(len(wavelengths)):
-    wavelengths[i] = float(wavelengths[i].rstrip("\n").split("      ")[1])
-#    print i, wavelengths[i]
+    temp_data = wavelengths[i].rstrip("\n").split("      ")
+    chemical_data.append(temp_data[0])
+    wavelengths[i] = float(temp_data[1])
+#    print i, chemical_data[i], wavelengths[i]
     
 # Part 3: Finding Likely Lines
 """
@@ -81,7 +85,7 @@ for i in range(len(lines)):
             elif j <= 2935: z = 1.8975
             elif j <= 3098: z = 2.1103
             else: z = 2.1197
-            candidates.append([z, lines[i], wavelengths[j]])
+            candidates.append([z, wavelengths[j], lines[i], chemical_data[j]])
 
 # Part 4: Printing Candidate Absorption Features Across All Redshifts
 """
@@ -89,6 +93,6 @@ I sort the candidates list for readability, and then
 print each element of candidates.
 """
 candidates = sorted(candidates)
-print "[ z , line ,  wav ] tol=" + str(tol)
+print "[ z , wav , line , ion ] tol=" + str(tol)
 for i in range(len(candidates)):
     print candidates[i]
