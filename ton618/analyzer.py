@@ -85,7 +85,7 @@ for i in range(len(lines)):
             elif j <= 2935: z = 1.8975
             elif j <= 3098: z = 2.1103
             else: z = 2.1197
-            candidates.append([z, wavelengths[j], lines[i], chemical_data[j]])
+            candidates.append([lines[i], wavelengths[j], z, chemical_data[j]])
 
 # Part 4: Printing Candidate Absorption Features Across All Redshifts
 """
@@ -93,6 +93,6 @@ I sort the candidates list for readability, and then
 print each element of candidates.
 """
 candidates = sorted(candidates)
-print "[ z , wav , line , ion ] tol=" + str(tol)
+print "[ line , wav , z , ion ] tol=", tol
 for i in range(len(candidates)):
     print candidates[i]
